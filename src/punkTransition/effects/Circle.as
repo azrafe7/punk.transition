@@ -1,13 +1,14 @@
-package effects
+package punkTransition.effects
 {
 	import flash.display.*;
 	import flash.geom.Rectangle;
 	import net.flashpunk.*;
 	import net.flashpunk.graphics.*;
+	import punkTransition.Transition;
 	
 	/**
-	 * ...
-	 * @author ...
+	 * @author GIT:		cjke 
+	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class Circle extends Effect
 	{
@@ -58,8 +59,15 @@ package effects
 			_tempSprite.graphics.clear();
 			
 			// Draw Star
-			_tempSprite.graphics.beginFill(0xFF0000, 1);			
-			_tempSprite.graphics.drawCircle(_startX, _startY, _scale);
+			_tempSprite.graphics.beginFill(0xFF0000, 1);
+			if(Transition.tracked != "" && FP.world.hasOwnProperty(Transition.tracked) && FP.world[Transition.tracked] != null)
+			{
+				_tempSprite.graphics.drawCircle(FP.world[Transition.tracked].x, FP.world[Transition.tracked].y, _scale);
+			}			
+			else
+			{
+				_tempSprite.graphics.drawCircle(_startX, _startY, _scale);
+			}
 			
 			// Draw bg
 			_starBm.fillRect(_r, 0xFF000000);

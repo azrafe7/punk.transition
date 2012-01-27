@@ -1,10 +1,10 @@
-package effects 
+package punkTransition.effects 
 {
 	import net.flashpunk.Entity;
 	
 	/**
-	 * ...
-	 * @author ...
+	 * @author GIT:		cjke 
+	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class Effect extends Entity 
 	{

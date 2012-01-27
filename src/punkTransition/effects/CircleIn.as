@@ -1,12 +1,12 @@
-package effects
+package punkTransition.effects
 {
 	/**
-	 * ...
-	 * @author ...
+	 * @author GIT:		cjke 
+	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class CircleIn extends Circle
 	{
-		public function CircleIn(x:Number, y:Number, speed:Number = 10)
+		public function CircleIn(x:Number = 0, y:Number = 0, speed:Number = 10)
 		{
 			super(x, y, speed);
 			_scale = _distance;	

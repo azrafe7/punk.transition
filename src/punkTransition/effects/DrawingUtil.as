@@ -1,9 +1,10 @@
-package effects 
+package punkTransition.effects 
 {
 	import flash.display.Graphics;
+	
 	/**
-	 * ...
-	 * @author ...
+	 * @author GIT:		cjke 
+	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class DrawingUtil 
 	{

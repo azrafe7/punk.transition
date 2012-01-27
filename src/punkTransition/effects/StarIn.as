@@ -1,12 +1,14 @@
-package effects
+package punkTransition.effects
 {
+	import net.flashpunk.Entity;
+
 	/**
-	 * ...
-	 * @author ...
+	 * @author GIT:		cjke 
+	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class StarIn extends Star
 	{
-		public function StarIn(x:Number, y:Number, speed:Number = 10)
+		public function StarIn(x:Number = 0, y:Number = 0, speed:Number = 10)
 		{
 			super(x, y, speed);
 			_scale = _distance;	

@@ -1,12 +1,12 @@
-package effects
+package punkTransition.effects
 {
 	import flash.display.BitmapData;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	
 	/**
-	 * ...
-	 * @author ...
+	 * @author GIT:		cjke 
+	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class Fade extends Effect
 	{

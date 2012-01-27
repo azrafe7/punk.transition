@@ -1,8 +1,8 @@
-package effects
+package punkTransition.effects
 {
 	/**
-	 * ...
-	 * @author ...
+	 * @author GIT:		cjke 
+	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class FadeIn extends Fade
 	{
@@ -15,7 +15,7 @@ package effects
 		override public function render():void
 		{
 			//fade out			
-			_fade.alpha += 0.01;
+			_fade.alpha += 0.05;
 			
 			if (_fade.alpha >= 1)
 			{
