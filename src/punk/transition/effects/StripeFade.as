@@ -24,7 +24,7 @@ package punk.transition.effects
 		
 		// extra options (with default values)
 		protected var _duration:Number = 2;
-		protected var _ease:Function = linear;
+		protected var _ease:Function = null;	// null => linear;
 		protected var _numStripes:int = 18;
 		protected var _color:int = 0xFF000000;
 		protected var _stripeEase:Function = Ease.sineIn;
@@ -36,13 +36,10 @@ package punk.transition.effects
 		public static const RIGHT:int = 2;
 		public static const BOTTOM:int = 3;
 		
-		// linear ease function
-		public static function linear(t:Number):Number { return t; };
 		
-	
 		/**
 		 * StripeFade effect constructor.
-		 * @param	fadeIn		If true the stripes will fadeIn. Default to false.
+		 * @param	fadeIn		If true the stripes will fade in. Defaults to false.
 		 * @param	fadeFrom	On which side the fade will start. Possible values are StripeFade.LEFT, StripeFade.TOP, StripeFade.RIGHT, StripeFade.BOTTOM. Defaults to LEFT.
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
@@ -60,11 +57,11 @@ package punk.transition.effects
 			
 			if (options) {
 				if (options.hasOwnProperty("duration")) _duration = options.duration;
-				if (options.hasOwnProperty("ease")) _ease = options.ease || linear;
+				if (options.hasOwnProperty("ease")) _ease = options.ease;
 				if (options.hasOwnProperty("numStripes")) _numStripes = options.numStripes;
 				if (options.hasOwnProperty("color")) _color = options.color;
 				if (options.hasOwnProperty("stripeDuration")) _stripeDuration = options.stripeDuration;
-				if (options.hasOwnProperty("stripeEase")) _stripeEase = options.stripeEase || linear;
+				if (options.hasOwnProperty("stripeEase")) _stripeEase = options.stripeEase;
 			}
 			
 			_fadeIn = fadeIn;
@@ -101,7 +98,7 @@ package punk.transition.effects
 				var img:Image = images[idx] as Image;
 				var options:Object = new Object();
 				if (i > 0) {
-					options.delay = _duration * _ease(i * t);
+					options.delay = _duration * (_ease != null ? _ease(i * t) : i * t);
 				}
 				options.ease = _stripeEase;
 				if (i == _numStripes - 1) options.complete = _onComplete;	// completeTime
