@@ -1,7 +1,6 @@
 package punk.transition.effects 
 {
 	import flash.display.BitmapData;
-	import flash.display.BlendMode;
 	import flash.geom.Matrix;
 	import flash.utils.getTimer;
 	import net.flashpunk.FP;
@@ -78,7 +77,7 @@ package punk.transition.effects
 			var tempBMD:BitmapData = new BitmapData(tempW, tempH, false);
 			var scaleMatrix:Matrix = new Matrix();
 			
-			// scale
+			// scale down
 			scaleMatrix.scale(1/_pixelSize, 1/_pixelSize);
 			tempBMD.draw(FP.buffer, scaleMatrix, null, null, FP.buffer.rect, _smoothing);
 			
