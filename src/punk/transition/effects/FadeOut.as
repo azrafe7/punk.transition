@@ -1,27 +1,17 @@
 package punk.transition.effects
 {
+	
 	/**
-	 * @author GIT:		cjke 
-	 * @author Mail:	cjke.7777@gmail.com
+	 * FadeOut effect class. Shorthand for Fade(false, options).
+	 * 
+	 * @author azrafe7
 	 */
 	public class FadeOut extends Fade
 	{
-		public function FadeOut()
-		{
-			super();
-			_fade.alpha = 1;
-		}
 		
-		override public function render():void
+		public function FadeOut(options:Object=null)
 		{
-			//fade out			
-			_fade.alpha -= 0.05;
-			
-			if (_fade.alpha <= 0)
-			{
-				_onComplete();
-			}
-			super.render();		
-		}	
+			super(false, options);
+		}
 	}
 }

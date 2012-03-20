@@ -14,8 +14,6 @@ package punk.transition.effects
 	 */
 	public class StripeFade extends Effect 
 	{
-		protected var _startTime:int;
-		
 		protected var _fadeImages:Vector.<Image> = new Vector.<Image>;
 
 		// main options
@@ -26,7 +24,7 @@ package punk.transition.effects
 		protected var _duration:Number = 2;
 		protected var _ease:Function = null;	// null => linear;
 		protected var _numStripes:int = 18;
-		protected var _color:int = 0xFF000000;
+		protected var _color:int = FP.screen.color;
 		protected var _stripeEase:Function = Ease.sineIn;
 		protected var _stripeDuration:Number = .8;
 
@@ -40,7 +38,7 @@ package punk.transition.effects
 		/**
 		 * StripeFade effect constructor.
 		 * @param	fadeIn		If true the stripes will fade in. Defaults to false.
-		 * @param	fadeFrom	On which side the fade will start. Possible values are StripeFade.LEFT, StripeFade.TOP, StripeFade.RIGHT, StripeFade.BOTTOM. Defaults to LEFT.
+		 * @param	fadeFrom	On which side the fade will start. Possible values are StripeFade.LEFT, StripeFade.TOP, StripeFade.RIGHT, StripeFade.BOTTOM. Defaults to StripeFade.LEFT.
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
 		 * 						ease			Optional easer function. Defaults to linear.
@@ -51,7 +49,7 @@ package punk.transition.effects
 		 * 
 		 * Example: new StripeFade(true, StripeFade.BOTTOM, { ease:Ease.bounceIn, numStripes:32, stripeDuration:1.5, color:0xFF3366});
 		 */
-		public function StripeFade(fadeIn:Boolean=false, fadeFrom:int=LEFT, options:Object=null) 
+		public function StripeFade(fadeIn:Boolean=false, fadeFrom:int=StripeFade.LEFT, options:Object=null) 
 		{
 			super();
 			
@@ -101,21 +99,10 @@ package punk.transition.effects
 					options.delay = _duration * (_ease != null ? _ease(i * t) : i * t);
 				}
 				options.ease = _stripeEase;
-				if (i == _numStripes - 1) options.complete = _onComplete;	// completeTime
+				if (i == _numStripes - 1) options.complete = _onComplete;
 				FP.tween(img, { alpha:destAlpha }, stripeTime, options);
 			}
-			
-			//_startTime = getTimer();
 		}
-		
-		/*
-		public function completeTime():Function 
-		{
-			var elapsed:Number = (getTimer()-_startTime)/1000;
-			trace(elapsed.toFixed(2), "secs /", (_duration + _stripeDuration).toFixed(2), "secs");
-			return super._onComplete();
-		}*/
-		
 	}
 
 }

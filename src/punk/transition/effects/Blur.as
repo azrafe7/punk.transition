@@ -16,8 +16,6 @@ package punk.transition.effects
 	public class Blur extends Effect 
 	{
 
-		protected var _startTime:int;
-
 		protected var _blurInfo:Object = {x:0, y:0};	// blur info used by the tween function
 		protected var _blurredImg:Image;
 		protected var _blurredBMD:BitmapData;
@@ -28,7 +26,7 @@ package punk.transition.effects
 
 		// options
 		protected var _ease:Function = null;	// null => linear
-		protected var _duration:Number = 2.5;
+		protected var _duration:Number = 2;
 		protected var _blur:Number = 25;
 		protected var _blurX:Number = NaN;
 		protected var _blurY:Number = NaN;
@@ -39,7 +37,7 @@ package punk.transition.effects
 		 * Blur effect constructor.
 		 * @param	blurIn	If true the image will blur in. Defaults to false.
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
-		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.5.
+		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
 		 * 						ease			Optional easer function. Defaults to linear.
 		 * 						blurX			Optional number [1-255] indicating the max blurX factor of the effect. Defaults to 25.
 		 * 						blurY			Optional number [1-255] indicating the max blurY factor of the effect. Defaults to 25.
@@ -64,7 +62,7 @@ package punk.transition.effects
 			
 			_blurX = _blurX || _blur;
 			_blurY = _blurY || _blur;
-			_blurredBMD = new BitmapData(FP.width, FP.height, false, 0);
+			_blurredBMD = new BitmapData(FP.width, FP.height, false, FP.screen.color);
 			_blurredImg = new Image(_blurredBMD);
 			_blurredImg.scrollX = _blurredImg.scrollY = 0;
 			_filter.quality = _quality;
@@ -88,9 +86,7 @@ package punk.transition.effects
 			var finalBlurX:Number = _blurIn ? 1 : _blurX;
 			var finalBlurY:Number = _blurIn ? 1 : _blurY;
 			
-			FP.tween(_blurInfo, { x:finalBlurX, y:finalBlurY }, _duration, { ease:_ease, complete:_onComplete } );	// completeTime
-			
-			//_startTime = getTimer();
+			FP.tween(_blurInfo, { x:finalBlurX, y:finalBlurY }, _duration, { ease:_ease, complete:_onComplete } );
 		}
 		
 		override public function render():void 
@@ -105,14 +101,6 @@ package punk.transition.effects
 
 			super.render();
 		}
-		
-		/*
-		public function completeTime():Function 
-		{
-			var elapsed:Number = (getTimer()-_startTime)/1000;
-			trace(elapsed.toFixed(2), "secs /", (_duration).toFixed(2), "secs");
-			return super._onComplete();
-		}*/
 	}
 
 }

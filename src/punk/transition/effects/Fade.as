@@ -1,24 +1,32 @@
 package punk.transition.effects
 {
-	import flash.display.BitmapData;
-	import net.flashpunk.FP;
-	import net.flashpunk.graphics.Image;
 	
 	/**
-	 * @author GIT:		cjke 
-	 * @author Mail:	cjke.7777@gmail.com
+	 * Fade effect class.
+	 * 
+	 * @author azrafe7
 	 */
-	public class Fade extends Effect
+	public class Fade extends StripeFade
 	{
-		protected var _fade:Image;
 		
-		public function Fade()
+		/**
+		 * Fade effect constructor.
+		 * @param	fadeIn		If true the stripes will fade in. Defaults to false.
+		 * @param	options		An object containing key/value pairs of the following optional parameters:
+		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
+		 * 						ease			Optional easer function. Defaults to linear.
+		 * 						color			Optional color of stripes. Defaults to black.
+		 * 
+		 * Example: new Fade(true, { ease:Ease.bounceIn, duration:1.5, color:0xFF3366});
+		 */
+		public function Fade(fadeIn:Boolean=false, options:Object=null)
 		{
-			super();
-			
-			var bm:BitmapData = new BitmapData(FP.width, FP.height, false, 0xFF000000);
-			_fade = new Image(bm);
-			graphic = _fade;
+			if (!options) options = { };
+			options.numStripes = 1;
+			options.stripeEase = options.ease || null;
+			options.stripeDuration = options.duration || 2;
+			options.ease = null;
+			super(fadeIn, StripeFade.LEFT, options);
 		}
 	}
 }
