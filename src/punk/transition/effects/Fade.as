@@ -15,7 +15,7 @@ package punk.transition.effects
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
 		 * 						ease			Optional easer function. Defaults to linear.
-		 * 						color			Optional color of stripes. Defaults to black.
+		 * 						color			Optional color of stripes. Defaults to FP.screen.color.
 		 * 
 		 * Example: new Fade(true, { ease:Ease.bounceIn, duration:1.5, color:0xFF3366});
 		 */

@@ -18,6 +18,7 @@ package punk.transition.effects
 		 * 
 		 * Example: new Combo(4, FadeIn, new PixelateIn({ease:Ease.bounceIn}));	// this will create a new FadeIn+PixelateIn effect which will last until all of the effects are completed (in this case 4 secs)
 		 * Example: new Combo([StripeFadeIn, new BlurIn({duration:3})]);		// this will create a new StripeFadeIn+BlurIn effect which will last until all of the effects are completed (in this case 3 secs)
+		 * Or try this: new Combo(BlurIn, new FadeIn({color:0xff6633}), new StripeFadeIn(StripeFade.TOP, {ease:Ease.cubeIn}), PixelateIn)5
 		 */
 		public function Combo(... effects) 
 		{

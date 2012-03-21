@@ -27,6 +27,7 @@ package punk.transition.effects
 		// options
 		protected var _ease:Function = null;	// null => linear
 		protected var _duration:Number = 2;
+		protected var _delay:Number = 0;
 		protected var _blur:Number = 25;
 		protected var _blurX:Number = NaN;
 		protected var _blurY:Number = NaN;
@@ -39,6 +40,7 @@ package punk.transition.effects
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
 		 * 						ease			Optional easer function. Defaults to linear.
+		 * 						delay			Optional number indicating the time (in seconds) the effect must wait before starting (approximately). Defaults to 0.
 		 * 						blurX			Optional number [1-255] indicating the max blurX factor of the effect. Defaults to 25.
 		 * 						blurY			Optional number [1-255] indicating the max blurY factor of the effect. Defaults to 25.
 		 * 						blur			Optional number [1-255] that gets assigned to both blurX and blurY. Defaults to 25.
@@ -54,6 +56,7 @@ package punk.transition.effects
 			if (options) {
 				if (options.hasOwnProperty("duration")) _duration = options.duration;
 				if (options.hasOwnProperty("ease")) _ease = options.ease;
+				if (options.hasOwnProperty("delay")) _delay = options.delay;
 				if (options.hasOwnProperty("blurX")) _blurX = FP.clamp(options.blurX, 1, _MAX_BLUR);
 				if (options.hasOwnProperty("blurY")) _blurY = FP.clamp(options.blurY, 1, _MAX_BLUR);
 				if (options.hasOwnProperty("blur")) _blur = FP.clamp(options.blur, 1, _MAX_BLUR);
@@ -86,7 +89,10 @@ package punk.transition.effects
 			var finalBlurX:Number = _blurIn ? 1 : _blurX;
 			var finalBlurY:Number = _blurIn ? 1 : _blurY;
 			
-			FP.tween(_blurInfo, { x:finalBlurX, y:finalBlurY }, _duration, { ease:_ease, complete:_onComplete } );
+			var tweenOptions:Object = { ease:_ease, complete:_onComplete };
+			if (_delay > 0) tweenOptions.delay = _delay;
+			
+			FP.tween(_blurInfo, { x:finalBlurX, y:finalBlurY }, _duration, tweenOptions);
 		}
 		
 		override public function render():void 

@@ -21,6 +21,7 @@ package punk.transition.effects
 		protected var _flipInfo:Object = {angle:0};	// flip info used by the tween function
 		protected var _flipEndAngle:Number;	// ending flip angle
 		protected var _flipCenter:Vector3D;
+		protected var _flipAxis:Vector3D;	// flip axis
 		protected var _flippedBMD:BitmapData;
 		protected var _flippedBMP:Bitmap;
 		protected var _flippedSprite:Sprite;
@@ -29,11 +30,11 @@ package punk.transition.effects
 		// main options
 		protected var _flipIn:Boolean;	// "direction" of effect
 		protected var _flipDir:int;	// side to flip
-		protected var _flipAxis:Vector3D;	// flip axis
 		
 		// extra options
 		protected var _ease:Function = null;	// null => linear
 		protected var _duration:Number = 2;
+		protected var _delay:Number = 0;
 		protected var _smoothing:Boolean = false;
 		
 		// flip direction constants
@@ -50,6 +51,7 @@ package punk.transition.effects
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
 		 * 						ease			Optional easer function. Defaults to linear.
+		 * 						delay			Optional number indicating the time (in seconds) the effect must wait before starting (approximately). Defaults to 0.
 		 * 						smoothing		Optional boolean indicating whether smoothing must be used. Defaults to false.
 		 * 
 		 * Example: new Flip(true, Flip.DOWN, { ease:Ease.backIn, duration:3.2, smoothing:true });
@@ -62,6 +64,7 @@ package punk.transition.effects
 			if (options) {
 				if (options.hasOwnProperty("duration")) _duration = options.duration;
 				if (options.hasOwnProperty("ease")) _ease = options.ease;
+				if (options.hasOwnProperty("delay")) _delay = options.delay;
 				if (options.hasOwnProperty("smoothing")) _smoothing = options.smoothing;
 			}
 			
@@ -84,7 +87,11 @@ package punk.transition.effects
 		override public function added():void 
 		{
 			super.added();
-			FP.tween(_flipInfo, { angle: _flipEndAngle }, _duration, { ease:_ease, complete:_onComplete } );
+
+			var tweenOptions:Object = { ease:_ease, complete:_onComplete };
+			if (_delay > 0) tweenOptions.delay = _delay;
+			
+			FP.tween(_flipInfo, { angle: _flipEndAngle }, _duration, tweenOptions);
 		}
 		
 		override public function render():void 

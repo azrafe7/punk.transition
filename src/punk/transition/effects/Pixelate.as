@@ -26,6 +26,7 @@ package punk.transition.effects
 		protected var _scale:Number = 14;
 		protected var _ease:Function = null;	// null => linear
 		protected var _duration:Number = 2;
+		protected var _delay:Number = 0;
 		protected var _smoothing:Boolean = false;
 		
 
@@ -35,6 +36,7 @@ package punk.transition.effects
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
 		 * 						ease			Optional easer function. Defaults to linear.
+		 * 						delay			Optional number indicating the time (in seconds) the effect must wait before starting (approximately). Defaults to 0.
 		 * 						scale			Optional number indicating how much the original image must be scaled up. Defaults to 14.
 		 * 						smoothing		Optional boolean indicating whether smoothing must be used. Defaults to false.
 		 * 
@@ -47,6 +49,7 @@ package punk.transition.effects
 			if (options) {
 				if (options.hasOwnProperty("duration")) _duration = options.duration;
 				if (options.hasOwnProperty("ease")) _ease = options.ease;
+				if (options.hasOwnProperty("delay")) _delay = options.delay;
 				if (options.hasOwnProperty("scale")) _scale = FP.clamp(options.scale, 1, _MAX_SCALE);
 				if (options.hasOwnProperty("smoothing")) _smoothing = options.smoothing;
 			}
@@ -62,7 +65,11 @@ package punk.transition.effects
 		override public function added():void 
 		{
 			super.added();
-			FP.tween(_pixelInfo, { size: _pixelateIn ? 1 : _scale }, _duration, { ease:_ease, complete:_onComplete } );
+
+			var tweenOptions:Object = { ease:_ease, complete:_onComplete };
+			if (_delay > 0) tweenOptions.delay = _delay;
+			
+			FP.tween(_pixelInfo, { size: _pixelateIn ? 1 : _scale }, _duration, tweenOptions);
 		}
 		
 		override public function render():void 

@@ -23,6 +23,7 @@ package punk.transition.effects
 		// extra options (with default values)
 		protected var _duration:Number = 2;
 		protected var _ease:Function = null;	// null => linear;
+		protected var _delay:Number = 0;
 		protected var _numStripes:int = 18;
 		protected var _color:int = FP.screen.color;
 		protected var _stripeEase:Function = Ease.sineIn;
@@ -42,8 +43,9 @@ package punk.transition.effects
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						duration		Optional number indicating the time (in seconds) the effect will last (approximately). Defaults to 2.
 		 * 						ease			Optional easer function. Defaults to linear.
+		 * 						delay			Optional number indicating the time (in seconds) the effect must wait before starting (approximately). Defaults to 0.
 		 * 						numStripes		Optional number of stripes composing the effect. Defaults to 18.
-		 * 						color			Optional color of stripes. Defaults to black.
+		 * 						color			Optional color of stripes. Defaults to FP.screen.color.
 		 * 						stripeDuration	Optional number indicating the time (in seconds) each stripe will last (approximately). Defaults to 0.8.
 		 * 						stripeEase		Optional easer function for the single stripes. Defaults to Ease.sineIn.
 		 * 
@@ -56,6 +58,7 @@ package punk.transition.effects
 			if (options) {
 				if (options.hasOwnProperty("duration")) _duration = options.duration;
 				if (options.hasOwnProperty("ease")) _ease = options.ease;
+				if (options.hasOwnProperty("delay")) _delay = options.delay;
 				if (options.hasOwnProperty("numStripes")) _numStripes = options.numStripes;
 				if (options.hasOwnProperty("color")) _color = options.color;
 				if (options.hasOwnProperty("stripeDuration")) _stripeDuration = options.stripeDuration;
@@ -86,6 +89,14 @@ package punk.transition.effects
 		{
 			super.added();
 			
+			if (_delay > 0)
+				FP.alarm(_delay, start);
+			else
+				start();
+		}
+		
+		public function start():void 
+		{
 			var t:Number = 1 / _numStripes;
 			var stripeTime:Number = _stripeDuration;
 			var destAlpha:Number = _fadeIn ? 0 : 1;
