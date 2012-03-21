@@ -12,6 +12,13 @@ package punk.transition.effects
 		protected var _effects:Vector.<Effect> = new Vector.<Effect>;
 		protected var _effectsToPlay:int;
 		
+		/**
+		 * Combo effect constructor.
+		 * @param	... effects		Effects you want to mix together. You can pass Effects, Numbers (indicating a Delay effect) or Arrays. See example below.
+		 * 
+		 * Example: new Combo(4, FadeIn, new PixelateIn({ease:Ease.bounceIn}));	// this will create a new FadeIn+PixelateIn effect which will last until all of the effects are completed (in this case 4 secs)
+		 * Example: new Combo([StripeFadeIn, new BlurIn({duration:3})]);		// this will create a new StripeFadeIn+BlurIn effect which will last until all of the effects are completed (in this case 3 secs)
+		 */
 		public function Combo(... effects) 
 		{
 			if (effects.length > 0) addEffects.apply(null, effects);
@@ -40,6 +47,9 @@ package punk.transition.effects
 			}
 		}
 
+		/**
+		 * See constructor.
+		 */
 		public function addEffects(... effects):Combo 
 		{
 			addEffectsToVec.apply(null, [_effects].concat(effects));
@@ -56,6 +66,7 @@ package punk.transition.effects
 			}
 		}
 				
+		// called once the effect gets added to the world
 		override public function added():void 
 		{
 			//adjust callbacks

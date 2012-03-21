@@ -10,6 +10,13 @@ package punk.transition.effects
 	public class Sequence extends Combo 
 	{
 		
+		/**
+		 * Sequence effect constructor.
+		 * @param	... effects		Effects you want to sequence. You can pass Effects, Numbers (indicating a Delay effect) or Arrays. See example below.
+		 * 
+		 * Example: new Sequence(4, FadeIn, new PixelateIn({ease:Ease.bounceIn}));	// this will create a new Delay effect of 4 secs followed by a FadeIn followed by a PixelateIn effect
+		 * Example: new Sequence([StripeFadeIn, new BlurIn({duration:3})]);			// this will create a new StripeFadeIn effect followed by a BlurIn effect which will last 3 secs
+		 */
 		public function Sequence(... effects) 
 		{
 			super(effects);
@@ -28,6 +35,7 @@ package punk.transition.effects
 			}
 		}
 		
+		// called once the effect gets added to the world
 		override public function added():void 
 		{
 			//adjust callbacks
