@@ -44,6 +44,7 @@ package punk.transition.effects
 		 */
 		public function Pixelate(pixelateIn:Boolean=false, options:Object=null) 
 		{
+			super();
 			_pixelateIn = pixelateIn;
 
 			if (options) {

@@ -54,6 +54,7 @@ package punk.transition.effects
 		 */
 		public function RotoZoom(rotoZoomIn:Boolean=false, options:Object=null) 
 		{
+			super();
 			_rotoZoomIn = rotoZoomIn;
 
 			if (options) {

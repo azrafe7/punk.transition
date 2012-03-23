@@ -22,6 +22,7 @@ package punk.transition.effects
 		 */
 		public function Combo(... effects) 
 		{
+			super();
 			if (effects.length > 0) addEffects.apply(null, effects);
 		}
 		

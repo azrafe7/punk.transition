@@ -51,6 +51,7 @@ package punk.transition.effects
 		 */
 		public function Blur(blurIn:Boolean=false, options:Object=null) 
 		{
+			super();
 			_blurIn = blurIn;
 
 			if (options) {

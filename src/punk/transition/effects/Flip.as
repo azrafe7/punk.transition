@@ -58,6 +58,7 @@ package punk.transition.effects
 		 */
 		public function Flip(flipIn:Boolean=false, flipDir:int=Flip.RIGHT, options:Object=null) 
 		{
+			super();
 			_flipIn = flipIn;
 			_flipDir = flipDir;
 
