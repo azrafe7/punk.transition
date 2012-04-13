@@ -1,5 +1,6 @@
 package punk.transition.effects 
 {
+	import flash.utils.getTimer;
 	import net.flashpunk.Entity;
 	
 	/**
@@ -8,6 +9,8 @@ package punk.transition.effects
 	 */
 	public class Effect extends Entity 
 	{
+		protected var _startTime:int;
+
 		protected var _onComplete:Function;
 				
 		public function Effect() 
@@ -19,6 +22,20 @@ package punk.transition.effects
 			active = false;
 		}
 		
+		override public function added():void 
+		{
+			_startTime = getTimer();
+			super.added();
+		}
+		
+		override public function removed():void 
+		{
+			var elapsed:Number = (getTimer() - _startTime) / 1000;
+			//var expected:String = this.hasOwnProperty("_duration") ? this["_duration"].toFixed(2) : "UNKNOWN";
+			trace(this, "removed in", elapsed.toFixed(2));
+			super.removed();
+		}
+		
 		public function get onComplete():Function 
 		{
 			return _onComplete;
@@ -27,6 +44,6 @@ package punk.transition.effects
 		public function set onComplete(value:Function):void 
 		{
 			_onComplete = value;
-		}		
+		}
 	}
 }
