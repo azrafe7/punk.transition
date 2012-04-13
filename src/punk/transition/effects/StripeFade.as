@@ -90,12 +90,12 @@ package punk.transition.effects
 			super.added();
 			
 			if (_delay > 0)
-				FP.alarm(_delay, start);
+				FP.alarm(_delay, _start);
 			else
-				start();
+				_start();
 		}
 		
-		public function start():void 
+		public function _start():void 
 		{
 			var t:Number = 1 / _numStripes;
 			var stripeTime:Number = _stripeDuration;

@@ -59,7 +59,7 @@ package punk.transition.effects
 			_tempSprite.graphics.clear();
 			
 			// Draw Star
-			_tempSprite.graphics.beginFill(0xFF0000, 1);
+			_tempSprite.graphics.beginFill(0xFF000000, 1);
 			if(Transition.tracked != "" && FP.world.hasOwnProperty(Transition.tracked) && FP.world[Transition.tracked] != null)
 			{
 				_tempSprite.graphics.drawCircle(FP.world[Transition.tracked].x, FP.world[Transition.tracked].y, _scale);
