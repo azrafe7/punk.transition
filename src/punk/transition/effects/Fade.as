@@ -35,6 +35,8 @@ package punk.transition.effects
 				if (!options.hasOwnProperty("color")) this.options.color = FP.screen.color;
 			}
 			
+			if (!target.hasOwnProperty("width") && !target.hasOwnProperty("height")) throw new Error("Target must have width and height properties!");
+			
 			_fadeImg = Image.createRect(target.width, target.height, this.options.color);
 			_fadeImg.alpha = _fadeIn ? 1 : 0;
 			_fadeImg.scrollX = _fadeImg.scrollY = 0;

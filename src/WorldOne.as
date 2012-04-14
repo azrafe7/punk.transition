@@ -28,9 +28,10 @@ package
 									  "running: [running]\n" +
 									  "paused: [paused]\n" +
 									  "percent: [percent]\n" +
+									  "elapsed: [elapsed]\n" +
 									  "";
 									  
-		private var _info:Text = new Text("", 350, 20, {color: 0xffffff});
+		private var _info:Text = new Text("", 320, 30, {color: 0xff3366});
 		
 		public function WorldOne() 
 		{
@@ -50,13 +51,6 @@ package
 			add(textEntity);
 			
 			FP.console.log("S - start | P - pause | T - to(0.5) | R - reset | TAB - info");
-		}
-		
-		override public function begin():void 
-		{
-			super.begin();
-			_effect = new FadeOut;
-			trace(_player.sprSwordguy.height);
 		}
 		
 		override public function update():void 
@@ -86,8 +80,8 @@ package
 			else if(Input.pressed(Key.DIGIT_5))
 			{	
 				//FP.screen.color = 0x00ff00;
-				remove(_effect);
-				_effect = new FadeOut( { color: 0x660011 } );
+				if (_effect) remove(_effect);
+				_effect = new FadeOut( { color: 0x660011, target:FP.buffer } );
 				_effect.start();
 			}
 			else if(Input.pressed(Key.DIGIT_6))
@@ -138,48 +132,42 @@ package
 				//Transition.to(WorldTwo, new RotoZoom(false, {ease:Ease.cubeIn, rotoEase:Ease.sineIn, rotations:5, zoomOut:100000}), new RotoZoom(true, {ease:Ease.cubeOut, zoomOut:100000, rotoEase:Ease.sineOut}));
 				Transition.to(WorldTwo, new Combo(new FadeOut({delay:1}), PixelateOut, new RotoZoomOut({delay:1, ease:Ease.expoIn, rotations:3, rotoEase:Ease.cubeIn})), new Combo(new PixelateIn({delay:1}), new RotoZoomIn({ease:Ease.expoOut, rotations:3, rotoEase:Ease.cubeOut}), new FadeIn()));
 			}
-			else if (Input.pressed(Key.P)) 
-			{
-				_effect.paused = !_effect.paused;
+			
+			// effect commands
+			if (_effect) {
+				if (Input.pressed(Key.P)) 
+				{
+					_effect.paused = !_effect.paused;
+				}
+				else if (Input.pressed(Key.S)) 
+				{
+					_effect.start();
+				}
+				else if (Input.pressed(Key.T)) 
+				{
+					_effect.to(.5);
+				}
+				else if (Input.pressed(Key.R)) 
+				{
+					_effect.reset();
+				}
 			}
-			else if (Input.pressed(Key.S)) 
-			{
-				_effect.start();
-			}
-			else if (Input.pressed(Key.T)) 
-			{
-				_effect.to(.5);
-			}
-			else if (Input.pressed(Key.R)) 
-			{
-				_effect.reset();
-			}
-			else if (Input.pressed(Key.LEFT)) 
-			{
-				FP.camera.x += 10;
-			}
-			else if (Input.pressed(Key.RIGHT)) 
-			{
-				FP.camera.x -= 10;
-			}
-			else if (Input.check(Key.UP)) 
-			{
-				FP.camera.y += 10;
-			}
-			else if (Input.check(Key.DOWN)) 
-			{
-				FP.camera.y -= 10;
-			}
-			else if (Input.check(Key.ESCAPE)) System.exit(1);
+			
+			if (Input.check(Key.ESCAPE)) System.exit(1);
 			
 			if (Input.pressed(Key.TAB)) _info.visible = !_info.visible;
 			
 			if (_info.visible) {
-				_info.text = _infoStr.replace("[effect]", _effect)
-									 .replace("[duration]", _effect.duration.toFixed(2))
-									 .replace("[running]", _effect.isRunning)
-									 .replace("[paused]", _effect.paused)
-									 .replace("[percent]", _effect.percent.toFixed(2));
+				if (_effect) {
+				_info.text =  _infoStr.replace("[effect]", _effect)
+									  .replace("[duration]", _effect.duration.toFixed(2))
+									  .replace("[running]", _effect.isRunning)
+									  .replace("[paused]", _effect.paused)
+									  .replace("[percent]", _effect.percent.toFixed(2))
+									  .replace("[elapsed]", _effect.elapsed.toFixed(2));
+				} else {
+					_info.text = "Effect: none";
+				}
 			}
 			
 			super.update();

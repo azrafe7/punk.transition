@@ -28,7 +28,8 @@ package punk.transition.effects
 			ease:null,					// ease function (null => linear)
 			delay:0,					// delay before starting the effect
 			duration:2,					// duration of the effect
-			target:FP.buffer			// object on which the effect will be applied
+			target:FP.buffer,			// object on which the effect will be applied
+			position:null				// object holding x and y properties indicating where the effect will be drawn at
 		};
 		
 		
@@ -102,7 +103,7 @@ package punk.transition.effects
 		{
 			if (_tweens.length < 1 && !(this is Combo)) throw new Error("You must add at least one tween to the effect using addTween()!");
 			for each (var t:Tween in _tweens) t.start();
-			paused = false;
+			paused = false; 
 			_running = true;
 			_elapsed = 0;
 			_startTime = getTimer();
@@ -117,19 +118,12 @@ package punk.transition.effects
 		 */
 		public function reset():Effect 
 		{
-			_elapsed = 0;
-			to(0);
-			return this;
+			return to(0);
 		}
 		
 		/** Update logic. */
 		override public function update():void 
 		{
-			/* // update position if the effect is applied to a moving object
-			if (target.hasOwnProperty("x") && target.hasOwnProperty("y")) {
-				x = target.x-FP.camera.x;
-				y = target.y-FP.camera.y;
-			}*/
 			super.update();
 			if (!_running || _tweens.length < 1) return;
 			
@@ -145,6 +139,17 @@ package punk.transition.effects
 			trace("  ", this, "Running:" + _running, "Elapsed:" + _elapsed.toFixed(2), "Paused:" + paused, "Percent:" + percent.toFixed(2), "RemainingTweens:" + _tweensToComplete);
 		}
 		
+		/** Update effect position if applied to a moving object. */
+		override public function render():void 
+		{
+			if (!options.position && options.target.hasOwnProperty("x") && options.target.hasOwnProperty("y")) options.position = options.target;
+			if (options.position && options.position.hasOwnProperty("x") && options.position.hasOwnProperty("y")) {
+				x = options.position.x-FP.camera.x;
+				y = options.position.y-FP.camera.y;
+			}
+			super.render();
+		}
+		
 		/** 
 		 * Instantly bring the effect percentage completion to the value of percent (the range is [0, 1]). 
 		 * 
@@ -156,6 +161,7 @@ package punk.transition.effects
 		 */
 		public function to(percent:Number, runAfterwards:Boolean=false):Effect
 		{
+			_elapsed = 0;
 			for each (var t:Tween in _tweens) 
 			{
 				t.percent = percent;
@@ -253,6 +259,10 @@ package punk.transition.effects
 		/** Target object on which the effect will be applied (defaults to FP.buffer). */
 		public function get target():Object { return options.target; }
 		public function set target(object:Object):void { options.target = object; }
+
+		/** Position object holding x and y properties indicating where the effect will be drawn at */
+		public function get position():Object { return options.position; }
+		public function set position(object:Object):void { options.position = object; }
 
 		/** True if the effect should start as soon as it's created. */
 		public static function get autoStart():Boolean { return _autoStart; }
