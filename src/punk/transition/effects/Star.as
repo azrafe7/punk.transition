@@ -5,6 +5,7 @@ package punk.transition.effects
 	import net.flashpunk.*;
 	import net.flashpunk.graphics.*;
 	import punk.transition.Transition;
+	import punk.transition.util.Drawing;
 	
 	/**
 	 * @author GIT:		cjke 
@@ -59,11 +60,11 @@ package punk.transition.effects
 			_tempSprite.graphics.beginFill(0xFF0000, 1);
 			if(Transition.tracked != "" && FP.world.hasOwnProperty(Transition.tracked) && FP.world[Transition.tracked] != null)
 			{
-				DrawingUtil.drawStar(_tempSprite.graphics, FP.world[Transition.tracked].x, FP.world[Transition.tracked].y, _scale, _scale*2);
+				Drawing.drawStar(_tempSprite.graphics, FP.world[Transition.tracked].x, FP.world[Transition.tracked].y, _scale, _scale*2);
 			}
 			else
 			{
-				DrawingUtil.drawStar(_tempSprite.graphics, _startX, _startY, _scale, _scale*2);
+				Drawing.drawStar(_tempSprite.graphics, _startX, _startY, _scale, _scale*2);
 			}
 			
 			// Draw bg
