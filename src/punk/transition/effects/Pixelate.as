@@ -58,6 +58,8 @@ package punk.transition.effects
 			_pixelatedImg.scrollX = _pixelatedImg.scrollY = 0;
 			_pixelInfo.size = pixelateIn ? _scale : 1;	// assign starting pixel size
 			graphic = _pixelatedImg;
+			
+			super(false);
 		}
 		
 		// called once the effect gets added to the world

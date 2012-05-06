@@ -11,18 +11,21 @@ package punk.transition.effects
 	 * @author Mail:	cjke.7777@gmail.com
 	 */
 	public class Circle extends Effect
-	{
-		protected var _distance:Number;
+	{	
+		protected var _color:uint = 0xFF000000;			
+		protected var _distance:Number;			
+		protected var _duration:Number = 1;
 		protected var _graphic:Image;		
 		protected var _r:Rectangle;
 		protected var _scale:Number;
-		protected var _speed:Number;
 		protected var _starBm:BitmapData;
-		protected var _startX:Number;
-		protected var _startY:Number;		
+		protected var _startX:Number = FP.halfWidth;
+		protected var _startY:Number = FP.halfHeight;		
 		protected var _tempSprite:Sprite = new Sprite();		
+		protected var _track:String = "";		
+		protected var _offset:Boolean = true;
 				
-		public function Circle(startX:Number, startY:Number, speed:Number = 10)
+		public function Circle(options:Object = null)
 		{
 			super();
 			layer = -1;
@@ -30,12 +33,16 @@ package punk.transition.effects
 			// Pause until transition manager tells it to get moving
 			active = false;
 			
-			// Store arguments
-			_speed = speed;
-			_startX = startX;
-			_startY = startY;
-			
-						
+			// Options
+			if (options) {
+				if (options.hasOwnProperty("color")) 		_color 		= options.color;
+				if (options.hasOwnProperty("duration")) 	_duration 	= options.duration;
+				if (options.hasOwnProperty("startX")) 		_startX 	= options.startX;
+				if (options.hasOwnProperty("startY")) 		_startY 	= options.startY;
+				if (options.hasOwnProperty("track")) 		_track 		= options.track;
+				if (options.hasOwnProperty("offset")) 		_offset 	= options.offset;
+			}
+												
 			// Find the longest distance from the start to any corner,
 			// used to track if the animation is done
 			var distances:Array = [
@@ -60,9 +67,16 @@ package punk.transition.effects
 			
 			// Draw Star
 			_tempSprite.graphics.beginFill(0xFF0000, 1);
-			if(Transition.tracked != "" && FP.world.hasOwnProperty(Transition.tracked) && FP.world[Transition.tracked] != null)
+			if(FP.world.hasOwnProperty(_track))
 			{
-				_tempSprite.graphics.drawCircle(FP.world[Transition.tracked].x, FP.world[Transition.tracked].y, _scale);
+				if(_offset) 
+				{
+					_tempSprite.graphics.drawCircle(FP.world[_track].x - FP.camera.x , FP.world[_track].y - FP.camera.y, _scale);
+				} 
+				else
+				{
+					_tempSprite.graphics.drawCircle(FP.world[_track].x, FP.world[_track].y, _scale);
+				}
 			}			
 			else
 			{
@@ -70,7 +84,7 @@ package punk.transition.effects
 			}
 			
 			// Draw bg
-			_starBm.fillRect(_r, 0xFF000000);
+			_starBm.fillRect(_r, _color);
 			_starBm.draw(_tempSprite, null, null, BlendMode.ERASE);
 			_graphic.updateBuffer();
 			

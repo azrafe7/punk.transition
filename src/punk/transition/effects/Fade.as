@@ -10,13 +10,20 @@ package punk.transition.effects
 	 */
 	public class Fade extends Effect
 	{
+		protected var _color:uint = 0xFF000000;
+		protected var _duration:Number = 1;
 		protected var _fade:Image;
 		
-		public function Fade()
+		public function Fade(options:Object = null)
 		{
 			super();
 			
-			var bm:BitmapData = new BitmapData(FP.width, FP.height, false, 0xFF000000);
+			if (options) {
+				if (options.hasOwnProperty("color")) 		_color 		= options.color;
+				if (options.hasOwnProperty("duration")) 	_duration 	= options.duration;
+			}
+			
+			var bm:BitmapData = new BitmapData(FP.width, FP.height, false, _color);
 			_fade = new Image(bm);
 			graphic = _fade;
 		}

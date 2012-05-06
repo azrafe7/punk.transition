@@ -78,6 +78,8 @@ package punk.transition.effects
 			}
 			
 			graphic = _blurredImg;
+			
+			super(false);
 		}
 		
 		// called once the effect gets added to the world

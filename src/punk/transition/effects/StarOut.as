@@ -1,6 +1,7 @@
 package punk.transition.effects
 {
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
 	
 	/**
 	 * @author GIT:		cjke 
@@ -8,16 +9,16 @@ package punk.transition.effects
 	 */
 	public class StarOut extends Star
 	{
-		public function StarOut(x:Number = 0, y:Number = 0, speed:Number = 10, track:Entity = null)
+		public function StarOut(options:Object = null)
 		{
-			super(x, y, speed, track);			
+			super(options);			
 			_scale = 10;
 		}
 		
 		override public function render():void
 		{
 			super.render();
-			_scale += _speed;			
+			_scale += ((FP.timeInFrames ? 1 : FP.elapsed) / _duration) * _distance;			
 			if(_scale > _distance)
 			{
 				_onComplete();

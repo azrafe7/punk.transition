@@ -8,9 +8,9 @@ package punk.transition.effects
 	public class StripeFadeIn extends StripeFade 
 	{
 		
-		public function StripeFadeIn(fadeFrom:int=RIGHT, options:Object=null) 
+		public function StripeFadeIn(options:Object=null) 
 		{
-			super(true, fadeFrom, options);
+			super(true, options);
 		}
 		
 	}

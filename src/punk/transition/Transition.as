@@ -1,5 +1,6 @@
 package punk.transition
 {
+	import flash.ui.Mouse;
 	import punk.transition.effects.*;
 	import flash.display.*;
 	import net.flashpunk.*;
@@ -17,8 +18,8 @@ package punk.transition
 		private static var _inWorld:World;		
 		private static var _out:Effect;
 		private static var _outWorld:World;		
-		private static var _tracked:String = "";
-
+		private static var _onOutComplete:Function = null;
+		private static var _onInComplete:Function = null;
 		
 		public function Transition()
 		{
@@ -30,11 +31,17 @@ package punk.transition
 		 * @param	outEffect
 		 * @param	inEffect
 		 */
-		public static function to(inWorld:*, outEffect:Effect, inEffect:Effect):void
+		public static function to(inWorld:*, outEffect:Effect, inEffect:Effect, options:Object = null):void
 		{
 			// Link worlds
 			_outWorld = FP.world;
 			_inWorldClass = inWorld;
+			
+			// Options
+			if (options) {
+				if (options.hasOwnProperty("onOutComplete")) _onOutComplete = options.onOutComplete;
+				if (options.hasOwnProperty("onInComplete")) _onInComplete = options.onInComplete;
+			}
 			
 			// Create out effects
 			_out = outEffect;			
@@ -68,9 +75,19 @@ package punk.transition
 				FP.world = _inWorld = _inWorldClass;
 			}
 			
+			if(_onOutComplete != null) _onOutComplete();
+						
 			// Turn on in effect
 			_in.active = true;
-			_inWorld.add(_in);
+			
+			if(_inWorld) 
+			{
+				_inWorld.add(_in);
+			}
+			else
+			{
+				FP.world.add(_in);
+			}
 		}
 		
 		/**
@@ -78,39 +95,10 @@ package punk.transition
 		 */
 		private static function onIn():void
 		{
-			_inWorld.remove(_in);
+			if(_onInComplete != null) _onInComplete();
+			
+			FP.world.remove(_in);
 			_in.active = false;
-		}
-		
-		/**
-		 * If you want an effect to follow a certain entity. This
-		 * needs to be a public property of the world. Pass in a
-		 * string reference to the item. This applies to both the
-		 * in and out world. 
-		 * 
-		 * If the entity isn't found at the time the effect is 
-		 * rendered the effect will just use it's startX, startY
-		 * @param	entity
-		 */
-		public static function track(entity:String):void
-		{
-			_tracked = entity;
-		}
-		
-		/**
-		 * Turn off tracking
-		 */
-		public static function untrack():void
-		{
-			_tracked = "";
-		}		
-		
-		/**
-		 * Find the reference to the currently tracked item
-		 */
-		public static function get tracked():String
-		{
-			return _tracked;
 		}
 		
 	}

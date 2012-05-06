@@ -20,13 +20,13 @@ package punk.transition.effects
 
 		// main options
 		protected var _fadeIn:Boolean;
-		protected var _fadeFrom:int;
+		protected var _fadeFrom:int = LEFT;
 		
 		// extra options (with default values)
 		protected var _duration:Number = 2;
 		protected var _ease:Function = null;	// null => linear;
 		protected var _numStripes:int = 18;
-		protected var _color:int = 0xFF000000;
+		protected var _color:uint = 0xFF000000;
 		protected var _stripeEase:Function = Ease.sineIn;
 		protected var _stripeDuration:Number = .8;
 
@@ -51,12 +51,13 @@ package punk.transition.effects
 		 * 
 		 * Example: new StripeFade(true, StripeFade.BOTTOM, { ease:Ease.bounceIn, numStripes:32, stripeDuration:1.5, color:0xFF3366});
 		 */
-		public function StripeFade(fadeIn:Boolean=false, fadeFrom:int=LEFT, options:Object=null) 
+		public function StripeFade(fadeIn:Boolean=false, options:Object=null) 
 		{
-			super();
+			super(false);
 			
 			if (options) {
 				if (options.hasOwnProperty("duration")) _duration = options.duration;
+				if (options.hasOwnProperty("fadeFrom")) _fadeFrom = options.fadeFrom;
 				if (options.hasOwnProperty("ease")) _ease = options.ease;
 				if (options.hasOwnProperty("numStripes")) _numStripes = options.numStripes;
 				if (options.hasOwnProperty("color")) _color = options.color;
@@ -65,7 +66,6 @@ package punk.transition.effects
 			}
 			
 			_fadeIn = fadeIn;
-			_fadeFrom = fadeFrom;
 			_duration -= _stripeDuration;
 			
 			var vertStripes:Boolean = (_fadeFrom % 2 == 0);
