@@ -85,7 +85,7 @@ package punk.transition.effects
 			
 			// scale back
 			scaleMatrix.identity();
-			scaleMatrix.scale(_pixelSize, _pixelSize);
+			scaleMatrix.scale(FP.width/tempBMD.width, FP.height/tempBMD.height);
 			_pixelatedBMD.draw(tempBMD, scaleMatrix, null, null, null, _smoothing);
 			_pixelatedImg.updateBuffer();
 
